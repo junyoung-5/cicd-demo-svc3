@@ -7,7 +7,7 @@ node {
     def commitId
     stage("git clone application-source") {
         deleteDir()
-        git credentialsId: 'kst-github', url: 'https://github.nhnent.com/toast-cloud-deploy/cicd-demo-svc3.git'
+        git url: 'https://github.nhnent.com/toast-cloud-deploy/cicd-demo-svc3.git'
         commitId = sh(returnStdout: true, script: "git show -s --format=%h")
     }
     stage("build&register container image") {
@@ -16,10 +16,10 @@ node {
                 CONTAINER_IMAGE_TAG=${commitId}
                 docker build -t \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG .
                 docker tag \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG \$CONTAINER_IMAGE:latest
-                docker push \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG
                 docker push \$CONTAINER_IMAGE:latest
-                docker rmi \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG
-                docker rmi \$CONTAINER_IMAGE:latest"""              
+                docker push \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG
+                docker rmi \$CONTAINER_IMAGE:latest         
+                docker rmi \$CONTAINER_IMAGE:\$CONTAINER_IMAGE_TAG"""
         }        
     }
 }
