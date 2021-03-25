@@ -7,7 +7,7 @@ node {
     def commitId
     stage("git clone application-source") {
         deleteDir()
-        git credentialsId: 'kst-github', url: 'https://github.nhnent.com/toast-cloud-deploy/cicd-demo-svc3.git'
+        git credentialsId: 'kst-github', url: 'https://github.com/junyoung-5/cicd-demo-svc3.git'
         commitId = sh(returnStdout: true, script: "git show -s --format=%h")
     }
     stage("build&register container image") {
